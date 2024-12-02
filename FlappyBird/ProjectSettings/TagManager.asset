@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - TheWall
+  - Ground
+  - Gold
+  - EndLine
+  - Boundary
+  - Obstacle
+  - ScoreBox
+  - Item
   layers:
   - Default
   - TransparentFX
