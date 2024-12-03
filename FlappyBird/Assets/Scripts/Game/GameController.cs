@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour
     [Header("Game States")]
     [SerializeField] private StartState startState;
     [SerializeField] private PlayState playState;
-    [SerializeField] private BuffState buffState;
     [SerializeField] private EndState endState;
 
     private StateContext stateContext;
@@ -18,7 +17,6 @@ public class GameController : MonoBehaviour
     {
         startState = GetComponent<StartState>();
         playState = GetComponent<PlayState>();
-        buffState = GetComponent<BuffState>();
         endState = GetComponent<EndState>();
 
         stateContext = new StateContext(this);
@@ -34,8 +32,6 @@ public class GameController : MonoBehaviour
                     UpdateState(EState.PLAY);
                 break;
             case EState.PLAY:
-                break;
-            case EState.BUFF:
                 break;
             case EState.END:
                 break;
@@ -55,9 +51,6 @@ public class GameController : MonoBehaviour
                 break;
             case EState.PLAY:
                 stateContext.Transition(playState);
-                break;
-            case EState.BUFF:
-                stateContext.Transition(buffState);
                 break;
             case EState.END:
                 stateContext.Transition(endState);

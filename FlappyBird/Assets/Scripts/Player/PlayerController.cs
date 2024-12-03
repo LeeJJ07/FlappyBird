@@ -5,15 +5,14 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject pickUpParticle;
     [SerializeField] private GameObject dieParticle;
     [SerializeField] private float jumpPower = 6.0f;
 
     private Rigidbody rigid;
-    private bool onBuff = false;
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        onBuff = false;
     }
 
     // Update is called once per frame
@@ -42,13 +41,6 @@ public class PlayerController : MonoBehaviour
                 Destroy(gameObject);
                 break;
             case "Obstacle":
-                if (onBuff)
-                {
-                    GameManager.Instance.score += 20;
-                    GameManager.Instance.SetLevel();
-                }
-                else
-                {
                     Instantiate(
                         dieParticle,
                         transform.position + new Vector3(1.5f, 0.0f, 0.0f),
@@ -56,14 +48,26 @@ public class PlayerController : MonoBehaviour
                         );
                     GameManager.Instance.isGameOver = true;
                     Destroy(gameObject);
-                }
                 break;
             case "ScoreBox":
                 GameManager.Instance.score += 10;
                 GameManager.Instance.SetLevel();
                 break;
             case "Item":
+                GameManager.Instance.SetBonus((int)(other.gameObject.GetComponent<ItemController>().CurType));
+                Instantiate(
+                        pickUpParticle,
+                        other.transform.position,
+                        Quaternion.identity
+                        );
+                if (GameManager.Instance.CheckBonus())
+                    StartCoroutine(GetBonusScore());
                 break;
         }
+    }
+    IEnumerator GetBonusScore()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.ResetBonus();
     }
 }

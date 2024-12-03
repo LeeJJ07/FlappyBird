@@ -5,7 +5,7 @@ using UnityEngine;
 public class PipeSpawner : MonoBehaviour
 {
     private readonly float maxSpawnY = 6.0f;
-    private readonly float minSpawnY = -4f;
+    private readonly float minSpawnY = -4.0f;
     private readonly int poolCapacity = 20;
 
     private float maxSpawnTime = 3.0f;
@@ -40,8 +40,8 @@ public class PipeSpawner : MonoBehaviour
             return curLevel;
 
         curLevel = GameManager.Instance.level;
-        maxSpawnTime -= 0.35f * (curLevel - 1);
-        minSpawnTime -= 0.2f * (curLevel - 1);
+        maxSpawnTime -= 0.25f * (curLevel - 1);
+        minSpawnTime -= 0.15f * (curLevel - 1);
 
         return curLevel;
     }

@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - ScoreBox
   - Item
+  - Pipe
   layers:
   - Default
   - TransparentFX

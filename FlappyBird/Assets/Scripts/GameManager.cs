@@ -33,9 +33,26 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public int score = 0;
     public int level = 1;
+    public bool[] isBonus = new bool[5];
 
     public void SetLevel()
     {
         level = (score / 100 + 1) <= 4 ? (score / 100 + 1) : 4;
+    }
+
+    public void SetBonus(int curAlpha)
+    {
+        isBonus[curAlpha] = true;
+    }
+    public void ResetBonus()
+    {
+        for(int idx=  0; idx<isBonus.Length; idx++)
+            isBonus[idx] = false;
+    }
+    public bool CheckBonus()
+    {
+        for (int idx = 0; idx < isBonus.Length; idx++)
+            if (!isBonus[idx]) return false;
+        return true;
     }
 }
