@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     public int score = 0;
+    public int bonusScore = 0;
     public int level = 1;
     public bool[] isBonus = new bool[5];
 
@@ -54,5 +55,19 @@ public class GameManager : MonoBehaviour
         for (int idx = 0; idx < isBonus.Length; idx++)
             if (!isBonus[idx]) return false;
         return true;
+    }
+
+    public int GetTotalScore()
+    {
+        return score + bonusScore;
+    }
+    public void ResetGame()
+    {
+        score = 0;
+        bonusScore = 0;
+        isGameOver = false;
+        level = 1;
+        for (int idx = 0; idx < isBonus.Length; idx++)
+            isBonus[idx] = false;
     }
 }

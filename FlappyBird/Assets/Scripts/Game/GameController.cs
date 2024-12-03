@@ -32,6 +32,8 @@ public class GameController : MonoBehaviour
                     UpdateState(EState.PLAY);
                 break;
             case EState.PLAY:
+                if (GameManager.Instance.isGameOver)
+                    UpdateState(EState.END);
                 break;
             case EState.END:
                 break;
