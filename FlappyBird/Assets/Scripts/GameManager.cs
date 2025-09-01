@@ -1,71 +1,103 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager sInstance;
+    private static GameManager instance;
     public static GameManager Instance
-    {
-        get
-        {
-            if(sInstance == null)
-            {
-                GameObject newGameObject = new GameObject("@GameManager");
-                sInstance = newGameObject.AddComponent<GameManager>();
-            }
-            return sInstance;
-        }
+    { get 
+        { 
+            if (instance == null) 
+            { 
+                GameObject newGameObject = new GameObject("GameManager"); 
+                instance = newGameObject.AddComponent<GameManager>(); 
+            } 
+            return instance; 
+        } 
     }
+
+
+    [Header("Game State")]
+    [SerializeField] private bool isGameOver = false;
+    [SerializeField] private int score = 0;
+    [SerializeField] private int bonusScore = 0;
+    [SerializeField] private int level = 1;
+    [SerializeField] private bool[] bonusCollected = new bool[5];
+
+    [Header("Level Settings")]
+    [SerializeField] private int scorePerLevel = 100;
+    [SerializeField] private int maxLevel = 4;
+
+    public bool IsGameOver
+    {
+        get => isGameOver;
+        set => isGameOver = value;
+    }
+
+    public int Score
+    {
+        get => score;
+        set => score = Mathf.Max(0, value);
+    }
+
+    public int BonusScore
+    {
+        get => bonusScore;
+        set => bonusScore = Mathf.Max(0, value);
+    }
+    public int Level => level;
 
     private void Awake()
     {
-        if(sInstance != null && sInstance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
             return;
         }
-        sInstance = this;
+        instance = this;
 
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public bool isGameOver = false;
-    public int score = 0;
-    public int bonusScore = 0;
-    public int level = 1;
-    public bool[] isBonus = new bool[5];
-
-    public void SetLevel()
+    public void UpdateLevel()
     {
-        level = (score / 100 + 1) <= 4 ? (score / 100 + 1) : 4;
+        int computed = (score / scorePerLevel) + 1;
+        level = Mathf.Clamp(computed, 1, maxLevel);
     }
 
-    public void SetBonus(int curAlpha)
+    public void SetBonusCollected(int index)
     {
-        isBonus[curAlpha] = true;
+        if (index < 0 || index >= bonusCollected.Length) return;
+        bonusCollected[index] = true;
     }
-    public void ResetBonus()
+
+    public void ResetBonusCollected()
     {
-        for(int idx=  0; idx<isBonus.Length; idx++)
-            isBonus[idx] = false;
+        for (int i = 0; i < bonusCollected.Length; i++)
+            bonusCollected[i] = false;
     }
-    public bool CheckBonus()
+
+    public bool IsAllBonusCollected()
     {
-        for (int idx = 0; idx < isBonus.Length; idx++)
-            if (!isBonus[idx]) return false;
+        for (int i = 0; i < bonusCollected.Length; i++)
+            if (!bonusCollected[i]) return false;
         return true;
     }
 
-    public int GetTotalScore()
-    {
-        return score + bonusScore;
-    }
+    public int GetTotalScore() => score + bonusScore;
+
     public void ResetGame()
     {
         score = 0;
         bonusScore = 0;
         isGameOver = false;
         level = 1;
-        for (int idx = 0; idx < isBonus.Length; idx++)
-            isBonus[idx] = false;
+        ResetBonusCollected();
+    }
+
+    public bool GetBonusCollected(int index)
+    {
+        if (index < 0 || index >= bonusCollected.Length) return false;
+        return bonusCollected[index];
     }
 }

@@ -3,92 +3,103 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Particles")]
     [SerializeField] private GameObject pickUpParticle;
-    [SerializeField] private GameObject dieParticle;
+    [SerializeField] private GameObject deathParticle;
+
+    [Header("Movement")]
     [SerializeField] private float jumpPower = 6.0f;
 
-    [SerializeField] private GameObject hudScoreText;
-    [SerializeField] private GameObject hudBonusScoreText;
+    [Header("HUD Prefabs")]
+    [SerializeField] private GameObject scoreHudTextPrefab;
+    [SerializeField] private GameObject bonusHudTextPrefab;
+    [SerializeField] private Vector3 scoreHudOffset = new Vector3(2.5f, 2.0f, 0f);
 
-    private Rigidbody rigid;
-    private AudioSource audioSource;
+    [Header("Audio")]
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip pickupClip;
+    [SerializeField] private AudioClip deathClip;
 
-    [Header("Sound Clips")]
-    [SerializeField] AudioClip jumpClip;
-    [SerializeField] AudioClip pickupClip;
-    void Start()
+    private Rigidbody _rb;
+
+    private void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
+        _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        MoveUp();
+        HandleJump();
     }
 
-    private void MoveUp()
+    private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !rigid.isKinematic)
+        if (Input.GetKeyDown(KeyCode.Space) && !_rb.isKinematic)
         {
-            rigid.velocity = new Vector3(0.0f, jumpPower, 0.0f);
-            audioSource.PlayOneShot(jumpClip);
+            _rb.velocity = new Vector3(0f, jumpPower, 0f);
+            SoundManager.Instance?.PlaySfx(jumpClip);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        switch (other.tag)
+        if (other.CompareTag("Boundary"))
         {
-            case "Boundary":
-                Instantiate(
-                    dieParticle,
-                    transform.position + new Vector3(1.5f, (transform.position.y > 0 ? 1.0f : -1.0f), 0.0f),
-                    Quaternion.identity
-                    );
-                GameManager.Instance.isGameOver = true;
-                Destroy(gameObject);
-                break;
-            case "Obstacle":
-                Instantiate(
-                    dieParticle,
-                    transform.position + new Vector3(1.5f, 0.0f, 0.0f),
-                    Quaternion.identity
-                    );
-                GameManager.Instance.isGameOver = true;
-                Destroy(gameObject);
-                break;
-            case "ScoreBox": 
-                GetScore();
-                GameManager.Instance.score += 10;
-                GameManager.Instance.SetLevel();
-                audioSource.PlayOneShot(pickupClip);
-                break;
-            case "Item":
-                GameManager.Instance.SetBonus((int)(other.gameObject.GetComponent<ItemController>().CurType));
-                Instantiate(
-                        pickUpParticle,
-                        other.transform.position,
-                        Quaternion.identity
-                        );
-                if (GameManager.Instance.CheckBonus())
-                    StartCoroutine(GetBonusScore());
-                audioSource.PlayOneShot(pickupClip);
-                break;
+            SpawnDeathEffect(new Vector3(1.5f, transform.position.y > 0 ? 1.0f : -1.0f, 0f));
+            GameManager.Instance.IsGameOver = true;
+            SoundManager.Instance?.PlaySfx(deathClip);
+            gameObject.SetActive(false);
+        }
+        else if (other.CompareTag("Obstacle"))
+        {
+            SpawnDeathEffect(new Vector3(1.5f, 0f, 0f));
+            GameManager.Instance.IsGameOver = true;
+            SoundManager.Instance?.PlaySfx(deathClip);
+            gameObject.SetActive(false);
+        }
+        else if (other.CompareTag("ScoreBox"))
+        {
+            AddScore(10);
+            SoundManager.Instance?.PlaySfx(pickupClip);
+        }
+        else if (other.CompareTag("Item"))
+        {
+            var item = other.GetComponent<ItemController>();
+            if (item != null)
+            {
+                GameManager.Instance.SetBonusCollected((int)item.CurrentType);
+                Instantiate(pickUpParticle, other.transform.position, Quaternion.identity);
+                if (GameManager.Instance.IsAllBonusCollected())
+                    StartCoroutine(ApplyBonusScore(300));
+                SoundManager.Instance?.PlaySfx(pickupClip);
+            }
         }
     }
-    IEnumerator GetBonusScore()
+
+    private void SpawnDeathEffect(Vector3 offset)
     {
-        GameObject hudText = Instantiate(hudBonusScoreText);
-        GameManager.Instance.bonusScore += 300;
-        yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.ResetBonus();
+        Instantiate(deathParticle, transform.position + offset, Quaternion.identity);
     }
 
-    private void GetScore()
+    private void AddScore(int value)
     {
-        GameObject hudText = Instantiate(hudScoreText);
-        hudText.transform.position = transform.position + new Vector3(2.5f, 2.0f, 0.0f);
+        GameManager.Instance.Score += value;
+        GameManager.Instance.UpdateLevel();
+
+        if (scoreHudTextPrefab != null)
+        {
+            var hudText = Instantiate(scoreHudTextPrefab);
+            hudText.transform.position = transform.position + scoreHudOffset;
+        }
+    }
+
+    private IEnumerator ApplyBonusScore(int bonusValue)
+    {
+        GameManager.Instance.BonusScore += bonusValue;
+        if (bonusHudTextPrefab != null)
+            Instantiate(bonusHudTextPrefab);
+
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.ResetBonusCollected();
     }
 }

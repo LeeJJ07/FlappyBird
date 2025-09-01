@@ -1,70 +1,70 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CloudSpawner : MonoBehaviour
 {
-    private readonly float maxSpawnY = 11.0f;
-    private readonly float minSpawnY = -9.0f;
-    private readonly int poolCapacity = 15;
+    [Header("Spawn Area")]
+    [SerializeField] private float minSpawnY = -9.0f;
+    [SerializeField] private float maxSpawnY = 11.0f;
 
-    private readonly float maxSpawnTime = 3.0f;
-    private readonly float minSpawnTime = 1.5f;
-    [SerializeField] private GameObject[] cloudPrefabs;
+    [Header("Pooling")]
+    [SerializeField] private int poolSize = 15;
+    [SerializeField] private CloudController[] cloudPrefabs;
 
-    private List<GameObject> cloudsPool = new List<GameObject>();
+    [Header("Timing")]
+    [SerializeField] private float minSpawnTime = 1.5f;
+    [SerializeField] private float maxSpawnTime = 3.0f;
 
-    private int generateIndex = 0;
-    void Start()
+    private CloudController[] pool;
+    private int currentIndex;
+
+    private void Start()
     {
-        SetPool();
-
-        StartCoroutine(SpawnCloud());
+        InitializePool();
+        StartCoroutine(SpawnRoutine());
     }
 
-    IEnumerator SpawnCloud()
+    private void InitializePool()
+    {
+        pool = new CloudController[poolSize];
+        for (int i = 0; i < poolSize; i++)
+        {
+            var prefab = cloudPrefabs[Random.Range(0, cloudPrefabs.Length)];
+            var cloud = Instantiate(prefab, transform);
+            cloud.gameObject.SetActive(false);
+            pool[i] = cloud;
+        }
+    }
+
+    private IEnumerator SpawnRoutine()
     {
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
-
-            GenerateCloud();
+            SpawnOnce();
         }
     }
 
-    private void SetPool()
+    private void SpawnOnce()
     {
-        for (int num = 0; num < poolCapacity; num++)
+        for (int i = 0; i < poolSize; i++)
         {
-            GameObject cloud = Instantiate(cloudPrefabs[Random.Range(0, cloudPrefabs.Length)]);
-            cloud.transform.SetParent(transform, false);
-            cloud.SetActive(false);
-
-            cloudsPool.Add(cloud);
+            currentIndex = (currentIndex + 1) % poolSize;
+            if (!pool[currentIndex].gameObject.activeSelf)
+            {
+                ResetPosition(pool[currentIndex].transform);
+                pool[currentIndex].gameObject.SetActive(true);
+                break;
+            }
         }
     }
-    private void GenerateCloud()
-    {
-        while (true)
-        {
-            generateIndex++;
-            generateIndex %= poolCapacity;
 
-            if (cloudsPool[generateIndex].activeSelf)
-                continue;
-
-            ResetPosition(generateIndex);
-            cloudsPool[generateIndex].SetActive(true);
-            break;
-        }
-    }
-    private void ResetPosition(int cloudIndex)
+    private void ResetPosition(Transform t)
     {
-        cloudsPool[cloudIndex].transform.position =
-            new Vector3(
-                transform.position.x,
-                Random.Range(minSpawnY, maxSpawnY),
-                transform.position.z
-            );  
+        t.position = new Vector3(
+            transform.position.x,
+            Random.Range(minSpawnY, maxSpawnY),
+            transform.position.z
+        );
     }
 }

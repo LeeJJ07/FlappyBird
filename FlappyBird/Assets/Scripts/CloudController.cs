@@ -6,7 +6,7 @@ public class CloudController : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.left * Time.deltaTime * (speed + 2.0f * (GameManager.Instance.level - 1)));
+        transform.Translate(Vector3.left * Time.deltaTime * (speed + 2.0f * (GameManager.Instance.Level - 1)));
     }
 
     private void OnTriggerEnter(Collider other)

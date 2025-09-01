@@ -1,83 +1,65 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PipeSpawner : MonoBehaviour
 {
-    private readonly float maxSpawnY = 6.0f;
-    private readonly float minSpawnY = -4.0f;
-    private readonly int poolCapacity = 20;
+    [Header("Spawn Area")]
+    [SerializeField] private float minSpawnY = -4f;
+    [SerializeField] private float maxSpawnY = 6f;
 
-    private float maxSpawnTime = 3.0f;
-    private float minSpawnTime = 2.0f;
-    [SerializeField] private GameObject pipePrefab;
+    [Header("Pooling")]
+    [SerializeField] private int poolSize = 20;
+    [SerializeField] private PipeController pipePrefab;
 
-    private List<GameObject> cloudsPool = new List<GameObject>();
+    [Header("Timing")]
+    [SerializeField] private float minSpawnTime = 2.0f;
+    [SerializeField] private float maxSpawnTime = 3.0f;
+    [SerializeField] private float minTimeClamp = 0.3f;
+    [SerializeField] private float maxTimeClamp = 0.5f;
+    [SerializeField] private float minTimeDecreasePerLevel = 0.15f;
+    [SerializeField] private float maxTimeDecreasePerLevel = 0.25f;
 
-    private int generateIndex = 0;
-    void Start()
+    private ObjectPool<PipeController> pool;
+    private int cachedLevel;
+
+    private void Start()
     {
-        SetPool();
-
-        StartCoroutine(SpawnPipe());
+        pool = new ObjectPool<PipeController>(pipePrefab, poolSize, transform);
+        cachedLevel = GameManager.Instance.Level;
+        StartCoroutine(SpawnRoutine());
     }
 
-    IEnumerator SpawnPipe()
+    private IEnumerator SpawnRoutine()
     {
-        int curLevel = GameManager.Instance.level;
         while (true)
         {
-            curLevel = SetLevel(curLevel);
+            UpdateLevelScaling();
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
-
-            GeneratePipe();
+            SpawnOnce();
         }
     }
 
-    private int SetLevel(int curLevel)
+    private void UpdateLevelScaling()
     {
-        if (curLevel == GameManager.Instance.level)
-            return curLevel;
+        int level = GameManager.Instance.Level;
+        if (level == cachedLevel) return;
 
-        curLevel = GameManager.Instance.level;
-        maxSpawnTime -= 0.25f * (curLevel - 1);
-        minSpawnTime -= 0.15f * (curLevel - 1);
-
-        return curLevel;
+        int delta = level - 1;
+        maxSpawnTime = Mathf.Max(maxTimeClamp, maxSpawnTime - maxTimeDecreasePerLevel * delta);
+        minSpawnTime = Mathf.Max(minTimeClamp, minSpawnTime - minTimeDecreasePerLevel * delta);
+        cachedLevel = level;
     }
-    private void SetPool()
-    {
-        for (int num = 0; num < poolCapacity; num++)
-        {
-            GameObject cloud = Instantiate(pipePrefab);
-            cloud.transform.SetParent(transform, false);
-            cloud.SetActive(false);
 
-            cloudsPool.Add(cloud);
-        }
-    }
-    private void GeneratePipe()
+    private void SpawnOnce()
     {
-        while (true)
-        {
-            generateIndex++;
-            generateIndex %= poolCapacity;
+        var pipe = pool.Get();
+        if (pipe == null) return;
 
-            if (cloudsPool[generateIndex].activeSelf)
-                continue;
-
-            ResetPosition(generateIndex);
-            cloudsPool[generateIndex].SetActive(true);
-            break;
-        }
-    }
-    private void ResetPosition(int cloudIndex)
-    {
-        cloudsPool[cloudIndex].transform.position =
-            new Vector3(
-                transform.position.x,
-                Random.Range(minSpawnY, maxSpawnY),
-                transform.position.z
-            );
+        pipe.transform.position = new Vector3(
+            transform.position.x,
+            Random.Range(minSpawnY, maxSpawnY),
+            transform.position.z
+        );
+        pipe.gameObject.SetActive(true);
     }
 }

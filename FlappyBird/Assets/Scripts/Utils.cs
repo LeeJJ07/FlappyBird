@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
 public static class Utils
 {
     /// <summary>
-    /// Shuffle a list using Fisher-Yates algorithm
+    /// Shuffle a list in place using the Fisher-Yates algorithm.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="list"></param>
-    public static void Shuffle<T>(this List<T> list)
+    public static void Shuffle<T>(this IList<T> list)
     {
-        var temp = list.OrderBy(item => Guid.NewGuid()).ToList();
-        list.Clear();
-        list.AddRange(temp);
+        var rng = new Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            (list[k], list[n]) = (list[n], list[k]);
+        }
     }
 }

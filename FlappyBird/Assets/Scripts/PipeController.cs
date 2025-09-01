@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class PipeController : MonoBehaviour
 {
-    private float speed = 8.0f;
-    void Update()
+    [SerializeField] private float baseSpeed = 8.0f;
+    [SerializeField] private float speedIncreasePerLevel = 1.5f;
+
+    private void Update()
     {
-        transform.Translate(Vector3.left * Time.deltaTime * (speed + 1.5f * (GameManager.Instance.level - 1)));
+        float speed = baseSpeed + speedIncreasePerLevel * (GameManager.Instance.Level - 1);
+        transform.Translate(Vector3.left * Time.deltaTime * speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "EndLine")
-        {
+        if (other.CompareTag("EndLine"))
             gameObject.SetActive(false);
-        }
     }
 }

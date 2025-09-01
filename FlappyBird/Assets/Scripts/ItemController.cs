@@ -1,23 +1,28 @@
 using UnityEngine;
 
+public enum EItemType { B, O, N, U, S }
+
 public class ItemController : MonoBehaviour
 {
-    public EItemType CurType { get; set; } = EItemType.B;
-    private float speed = 8.0f;
-    void Update()
+    public EItemType CurrentType { get; set; } = EItemType.B;
+
+    [SerializeField] private float baseSpeed = 8.0f;
+    [SerializeField] private float speedIncreasePerLevel = 1.5f;
+
+    private void Update()
     {
-        transform.Translate(Vector3.left * Time.deltaTime * (speed + 1.5f * (GameManager.Instance.level - 1)));
+        float speed = baseSpeed + speedIncreasePerLevel * (GameManager.Instance.Level - 1);
+        transform.Translate(Vector3.left * Time.deltaTime * speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "EndLine")
+        if (other.CompareTag("EndLine"))
         {
             gameObject.SetActive(false);
         }
-        else if(other.tag == "Player")
+        else if (other.CompareTag("Player"))
         {
-
             gameObject.SetActive(false);
         }
     }

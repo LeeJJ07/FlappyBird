@@ -170,14 +170,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingCanvas: {fileID: 1840621321}
-  renewEndingPanel: {fileID: 253638601}
-  normalEndingPanel: {fileID: 1624934112}
+  newRecordPanel: {fileID: 253638601}
+  normalPanel: {fileID: 1624934112}
   buttonPanel: {fileID: 410324582}
-  renewScoreText: {fileID: 1357689509}
+  newRecordScoreText: {fileID: 1357689509}
   highScoreText: {fileID: 647660726}
-  curScoreText: {fileID: 1214036422}
-  goBackBtn: {fileID: 2009475097}
-  endGameBtn: {fileID: 1716966899}
+  currentScoreText: {fileID: 1214036422}
+  restartButton: {fileID: 2009475097}
+  quitButton: {fileID: 1716966899}
+  newRecordFormat: '{0} pts'
+  highScoreFormat: 'High score: {0} pts'
+  currentScoreFormat: 'Current score: {0} pts'
+  popupDuration: 1
+  buttonDelay: 3
 --- !u!114 &39366650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,15 +195,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90c11c675dedd04bb6185adfec53556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1686157125}
+  hudCanvas: {fileID: 1686157125}
   scoreText: {fileID: 345168576}
   levelText: {fileID: 1663070630}
-  bonusText:
+  bonusTextIndicators:
   - {fileID: 1482074833}
   - {fileID: 2077332110}
   - {fileID: 1003320364}
   - {fileID: 169617333}
   - {fileID: 1228751660}
+  scoreFormat: 'Score: {0}'
+  levelFormat: Level {0}
 --- !u!114 &39366651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +220,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 1081071602}
   player: {fileID: 1453964061}
+  moveSpeed: 7
+  startPos: {x: -21, y: 0, z: 0}
+  readyXThreshold: -11
 --- !u!114 &39366652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1409,12 +1419,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15df533f8de28894c80c653933f08132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsPrefab:
-  - {fileID: 1975959190090480, guid: eca000ab44c908d4dab395f654753038, type: 3}
-  - {fileID: 1725317912486240, guid: e55149ba6f4d00741984987e258c3378, type: 3}
-  - {fileID: 1434627103891488, guid: 52d340ed9c2714c4f8aabf1f82df1b58, type: 3}
-  - {fileID: 1518366863219760, guid: 3d35e81bdc5955041be098ef22e82a3b, type: 3}
-  - {fileID: 1223526616464650, guid: c590b17884b119046bc6412066500b7d, type: 3}
+  minSpawnY: -3
+  maxSpawnY: 4.5
+  poolSize: 20
+  itemPrefabs:
+  - {fileID: 4602226470068147868, guid: eca000ab44c908d4dab395f654753038, type: 3}
+  - {fileID: 8455903235721520896, guid: e55149ba6f4d00741984987e258c3378, type: 3}
+  - {fileID: 5345026443536121647, guid: 52d340ed9c2714c4f8aabf1f82df1b58, type: 3}
+  - {fileID: 541056284740310099, guid: 3d35e81bdc5955041be098ef22e82a3b, type: 3}
+  - {fileID: 8611197181223491627, guid: c590b17884b119046bc6412066500b7d, type: 3}
+  baseSpawnChance: 0.5
+  spawnTime: 2.5
+  spawnTimeDecreasePerLevel: 0.2
+  spawnTimeClamp: 0.5
 --- !u!4 &613584947
 Transform:
   m_ObjectHideFlags: 0
@@ -2777,40 +2794,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ace897d8c4cef04f98590af94890aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minSpawnY: -9
+  maxSpawnY: 11
+  poolSize: 15
   cloudPrefabs:
-  - {fileID: 172699282368210472, guid: d3c3e25e01afa0d419bb5166ddcbc831, type: 3}
-  - {fileID: 7045701433144213286, guid: 7f5e747eb338f9a48ad8cd108cc37aa8, type: 3}
---- !u!1 &1168088461
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1168088462}
-  m_Layer: 0
-  m_Name: Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1168088462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1168088461}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  - {fileID: 4562088145372667120, guid: d3c3e25e01afa0d419bb5166ddcbc831, type: 3}
+  - {fileID: 6814916608389135213, guid: 7f5e747eb338f9a48ad8cd108cc37aa8, type: 3}
+  minSpawnTime: 1.5
+  maxSpawnTime: 3
 --- !u!1 &1168786128
 GameObject:
   m_ObjectHideFlags: 0
@@ -2856,8 +2847,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeba132ebb95fe4a83e70bfa77799ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipePrefab: {fileID: 4950424730500153092, guid: 56f0357eb17d5d34d92cc5136ee802d3,
+  minSpawnY: -4
+  maxSpawnY: 6
+  poolSize: 20
+  pipePrefab: {fileID: 7737214004284610125, guid: 56f0357eb17d5d34d92cc5136ee802d3,
     type: 3}
+  minSpawnTime: 2
+  maxSpawnTime: 3
+  minTimeClamp: 0.3
+  maxTimeClamp: 0.5
+  minTimeDecreasePerLevel: 0.15
+  maxTimeDecreasePerLevel: 0.25
 --- !u!1 &1214036420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,15 +3313,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickUpParticle: {fileID: 8975922223065966522, guid: 734511b3941e6a841b5dc83f6b4702b5,
     type: 3}
-  dieParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
+  deathParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
     type: 3}
   jumpPower: 6
-  hudScoreText: {fileID: 3816212206718201590, guid: 0dbe32b5999beab43b36f106ba7c4555,
+  scoreHudTextPrefab: {fileID: 3816212206718201590, guid: 0dbe32b5999beab43b36f106ba7c4555,
     type: 3}
-  hudBonusScoreText: {fileID: 18839968892194024, guid: 30bd333cf7274a347a0042cc6ac43301,
+  bonusHudTextPrefab: {fileID: 18839968892194024, guid: 30bd333cf7274a347a0042cc6ac43301,
     type: 3}
+  scoreHudOffset: {x: 2.5, y: 2, z: 0}
   jumpClip: {fileID: 8300000, guid: 712e954ca4fe3e843b66e7b598a8eaae, type: 3}
   pickupClip: {fileID: 8300000, guid: 4a2b8a700f880de479ec87a391b8072a, type: 3}
+  deathClip: {fileID: 8300000, guid: 75709ca1232d7f1429e8b9374744acd8, type: 3}
 --- !u!65 &1453964064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4886,4 +4888,3 @@ SceneRoots:
   - {fileID: 613584947}
   - {fileID: 1125979300}
   - {fileID: 962954100}
-  - {fileID: 1168088462}

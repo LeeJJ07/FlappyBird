@@ -259,9 +259,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5995832338185069619}
   - component: {fileID: 5849813911789182862}
-  - component: {fileID: 6988803878594828661}
   - component: {fileID: -5972293900141004575}
   - component: {fileID: -4316904116987449488}
+  - component: {fileID: 6814916608389135213}
   m_Layer: 0
   m_Name: Cloud2
   m_TagString: Untagged
@@ -319,18 +319,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7929555907626244922}
   m_Enabled: 1
---- !u!114 &6988803878594828661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7045701433144213286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf02ad727d8599648b04a8eff03b2734, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &-5972293900141004575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -379,6 +367,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6814916608389135213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045701433144213286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf02ad727d8599648b04a8eff03b2734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9217366826537425077
 GameObject:
   m_ObjectHideFlags: 0

@@ -221,6 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pressText: {fileID: 1432431443}
   fadeImage: {fileID: 1450272485}
+  startKey: 13
+  gameSceneIndex: 1
 --- !u!4 &504748121
 Transform:
   m_ObjectHideFlags: 0
@@ -1060,7 +1062,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02991b9aeb652d94eadcfef42da78cdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgm: {fileID: 2007610948}
+  bgmSource: {fileID: 2007610948}
+  sfxSource: {fileID: 2007610948}
 --- !u!4 &2007610950
 Transform:
   m_ObjectHideFlags: 0

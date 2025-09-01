@@ -3,30 +3,37 @@ using UnityEngine;
 
 public class PlayState : MonoBehaviour, IState
 {
-    [SerializeField] private Canvas canvas;
+    [SerializeField] private Canvas hudCanvas;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI[] bonusTextIndicators;
 
-    [SerializeField] private TextMeshProUGUI[] bonusText;
+    [Header("UI Formats")]
+    [SerializeField] private string scoreFormat = "Score: {0}";
+    [SerializeField] private string levelFormat = "Level {0}";
+
     public void EnterState()
     {
-        canvas.enabled = true;
+        if (hudCanvas != null) hudCanvas.enabled = true;
     }
+
     public void UpdateState()
     {
-        scoreText.text = "현재 점수 : " + GameManager.Instance.GetTotalScore().ToString(); 
-        levelText.text = "Level " + GameManager.Instance.level.ToString();
+        if (scoreText != null)
+            scoreText.text = string.Format(scoreFormat, GameManager.Instance.GetTotalScore());
 
-        for(int num = 0; num < bonusText.Length; num++)
+        if (levelText != null)
+            levelText.text = string.Format(levelFormat, GameManager.Instance.Level);
+
+        for (int i = 0; i < bonusTextIndicators.Length; i++)
         {
-            if (GameManager.Instance.isBonus[num])
-                bonusText[num].enabled = true;
-            else
-                bonusText[num].enabled = false;
+            bool on = GameManager.Instance.GetBonusCollected(i);
+            bonusTextIndicators[i].enabled = on;
         }
     }
+
     public void ExitState()
     {
-        canvas.enabled = false;
+        if (hudCanvas != null) hudCanvas.enabled = false;
     }
 }
