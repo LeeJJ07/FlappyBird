@@ -11,7 +11,7 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private ItemController[] itemPrefabs;
 
     [Header("Timing")]
-    [SerializeField] private float baseSpawnChance = 0.5f; // 0~1
+    [SerializeField] private float baseSpawnChance = 0.5f;
     [SerializeField] private float spawnTime = 2.5f;
     [SerializeField] private float spawnTimeDecreasePerLevel = 0.2f;
     [SerializeField] private float spawnTimeClamp = 0.5f;

@@ -17,13 +17,7 @@ public class ItemController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("EndLine"))
-        {
+        if (other.CompareTag("EndLine") || other.CompareTag("Player"))
             gameObject.SetActive(false);
-        }
-        else if (other.CompareTag("Player"))
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

@@ -5,7 +5,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance
-    { get 
+    {
+        get 
         { 
             if (instance == null) 
             { 
@@ -15,7 +16,6 @@ public class GameManager : MonoBehaviour
             return instance; 
         } 
     }
-
 
     [Header("Game State")]
     [SerializeField] private bool isGameOver = false;
@@ -67,8 +67,11 @@ public class GameManager : MonoBehaviour
 
     public void SetBonusCollected(int index)
     {
-        if (index < 0 || index >= bonusCollected.Length) return;
+        if (index < 0 || index >= bonusCollected.Length) 
+            return;
+
         bonusCollected[index] = true;
+        GameEvents.RaiseBonusScoreAdded(index);
     }
 
     public void ResetBonusCollected()
@@ -97,7 +100,9 @@ public class GameManager : MonoBehaviour
 
     public bool GetBonusCollected(int index)
     {
-        if (index < 0 || index >= bonusCollected.Length) return false;
+        if (index < 0 || index >= bonusCollected.Length) 
+            return false;
+
         return bonusCollected[index];
     }
 }

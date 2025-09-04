@@ -24,23 +24,15 @@ public class SoundManager : MonoBehaviour
         if (bgmSource != null && !bgmSource.isPlaying)
             bgmSource.Play();
     }
+    private void OnEnable() => GameEvents.OnPlaySfx += PlaySfx;
+    private void OnDisable() => GameEvents.OnPlaySfx -= PlaySfx;
 
-    public void PlaySfx(AudioClip clip, float volume = 1f)
+
+    public void PlaySfx(AudioClip clip, float volume = 1.0f)
     {
-        if (clip == null)
-        {
-            Debug.LogWarning("PlaySfx: AudioClip is null!");
+        if (clip == null || sfxSource == null)
             return;
-        }
 
-        if (sfxSource == null)
-        {
-            Debug.LogWarning("PlaySfx: sfxSource is null!");
-            return;
-        }
-
-        Debug.Log($"PlaySfx: Playing {clip.name} at volume {volume}");
         sfxSource.PlayOneShot(clip, volume);
     }
-
 }

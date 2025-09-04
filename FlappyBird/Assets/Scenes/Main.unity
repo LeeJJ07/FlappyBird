@@ -1748,6 +1748,7 @@ GameObject:
   - component: {fileID: 661048237}
   - component: {fileID: 661048236}
   - component: {fileID: 661048235}
+  - component: {fileID: 661048238}
   m_Layer: 0
   m_Name: Up
   m_TagString: Boundary
@@ -1841,6 +1842,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661048233}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &661048238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661048233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c6c1ada5e536d4183fb20ca23e2051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathClip: {fileID: 8300000, guid: 75709ca1232d7f1429e8b9374744acd8, type: 3}
+  deathParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
+    type: 3}
 --- !u!1 &712644585
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,19 +3327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d5911234c36344198d5b099ef099ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpParticle: {fileID: 8975922223065966522, guid: 734511b3941e6a841b5dc83f6b4702b5,
-    type: 3}
-  deathParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
-    type: 3}
   jumpPower: 6
-  scoreHudTextPrefab: {fileID: 3816212206718201590, guid: 0dbe32b5999beab43b36f106ba7c4555,
-    type: 3}
-  bonusHudTextPrefab: {fileID: 18839968892194024, guid: 30bd333cf7274a347a0042cc6ac43301,
-    type: 3}
-  scoreHudOffset: {x: 2.5, y: 2, z: 0}
   jumpClip: {fileID: 8300000, guid: 712e954ca4fe3e843b66e7b598a8eaae, type: 3}
-  pickupClip: {fileID: 8300000, guid: 4a2b8a700f880de479ec87a391b8072a, type: 3}
-  deathClip: {fileID: 8300000, guid: 75709ca1232d7f1429e8b9374744acd8, type: 3}
 --- !u!65 &1453964064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3932,6 +3937,7 @@ GameObject:
   - component: {fileID: 1694085447}
   - component: {fileID: 1694085446}
   - component: {fileID: 1694085445}
+  - component: {fileID: 1694085448}
   m_Layer: 0
   m_Name: Down
   m_TagString: Boundary
@@ -4025,6 +4031,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694085443}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1694085448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694085443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c6c1ada5e536d4183fb20ca23e2051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathClip: {fileID: 8300000, guid: 75709ca1232d7f1429e8b9374744acd8, type: 3}
+  deathParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
+    type: 3}
 --- !u!1 &1716966897
 GameObject:
   m_ObjectHideFlags: 0

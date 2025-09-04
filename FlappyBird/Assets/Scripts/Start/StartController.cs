@@ -35,7 +35,7 @@ public class StartController : MonoBehaviour
         while (t < 1.0f)
         {
             t += Time.deltaTime;
-            fadeImage.color = new Color(0f, 0f, 0f, t);
+            fadeImage.color = new Color(0.0f, 0.0f, 0.0f, t);
             yield return null;
         }
         canStart = true;
@@ -47,10 +47,10 @@ public class StartController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.75f);
             var c = pressText.color;
-            pressText.color = new Color(c.r, c.g, c.b, 0f);
+            pressText.color = new Color(c.r, c.g, c.b, 0.0f);
             yield return new WaitForSeconds(0.4f);
             c = pressText.color;
-            pressText.color = new Color(c.r, c.g, c.b, 1f);
+            pressText.color = new Color(c.r, c.g, c.b, 1.0f);
         }
     }
 }

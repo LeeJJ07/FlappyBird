@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a93df4899ecc14e906a59d888eb555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 8
+  speedIncreasePerLevel: 1.5
 --- !u!54 &8100537316253170306
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -110,6 +112,7 @@ GameObject:
   - component: {fileID: 7582503626328870025}
   - component: {fileID: 3561382840486346021}
   - component: {fileID: 3698217362451107011}
+  - component: {fileID: 5865092990012651911}
   m_Layer: 0
   m_Name: ScoreBox
   m_TagString: ScoreBox
@@ -230,6 +233,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5865092990012651911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552882795950795776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a83cc79542ab8a4fa8a93763c2e0929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreValue: 10
+  scoreHudTextPrefab: {fileID: 3816212206718201590, guid: 0dbe32b5999beab43b36f106ba7c4555,
+    type: 3}
+  hudOffset: {x: 2.5, y: 2, z: 0}
+  pickupClip: {fileID: 8300000, guid: 4a2b8a700f880de479ec87a391b8072a, type: 3}
 --- !u!1001 &3957044489308137839
 PrefabInstance:
   m_ObjectHideFlags: 0

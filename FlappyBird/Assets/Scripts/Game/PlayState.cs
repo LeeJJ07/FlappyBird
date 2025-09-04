@@ -8,32 +8,39 @@ public class PlayState : MonoBehaviour, IState
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI[] bonusTextIndicators;
 
-    [Header("UI Formats")]
-    [SerializeField] private string scoreFormat = "Score: {0}";
-    [SerializeField] private string levelFormat = "Level {0}";
+    private void OnEnable()
+    {
+        GameEvents.OnScoreAdded += OnScoreChanged;
+        GameEvents.OnBonusScoreAdded += OnScoreChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnScoreAdded -= OnScoreChanged;
+        GameEvents.OnBonusScoreAdded -= OnScoreChanged;
+    }
+
+
+    private void OnScoreChanged(int _)
+    {
+        UpdateUI();
+    }
 
     public void EnterState()
     {
-        if (hudCanvas != null) hudCanvas.enabled = true;
+        hudCanvas.enabled = true;
+        UpdateUI();
     }
 
-    public void UpdateState()
-    {
-        if (scoreText != null)
-            scoreText.text = string.Format(scoreFormat, GameManager.Instance.GetTotalScore());
+    public void UpdateState() { }
+    public void ExitState() => hudCanvas.enabled = false;
 
-        if (levelText != null)
-            levelText.text = string.Format(levelFormat, GameManager.Instance.Level);
+    private void UpdateUI()
+    {
+        scoreText.text = $"Score: {GameManager.Instance.GetTotalScore()}";
+        levelText.text = $"Level {GameManager.Instance.Level}";
 
         for (int i = 0; i < bonusTextIndicators.Length; i++)
-        {
-            bool on = GameManager.Instance.GetBonusCollected(i);
-            bonusTextIndicators[i].enabled = on;
-        }
-    }
-
-    public void ExitState()
-    {
-        if (hudCanvas != null) hudCanvas.enabled = false;
+            bonusTextIndicators[i].enabled = GameManager.Instance.GetBonusCollected(i);
     }
 }

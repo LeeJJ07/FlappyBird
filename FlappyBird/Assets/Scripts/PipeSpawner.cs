@@ -4,8 +4,8 @@ using UnityEngine;
 public class PipeSpawner : MonoBehaviour
 {
     [Header("Spawn Area")]
-    [SerializeField] private float minSpawnY = -4f;
-    [SerializeField] private float maxSpawnY = 6f;
+    [SerializeField] private float minSpawnY = -4.0f;
+    [SerializeField] private float maxSpawnY = 6.0f;
 
     [Header("Pooling")]
     [SerializeField] private int poolSize = 20;

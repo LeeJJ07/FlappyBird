@@ -9698,6 +9698,7 @@ GameObject:
   - component: {fileID: 5345026443536121647}
   - component: {fileID: -4857543357281465308}
   - component: {fileID: 5476420817114455783}
+  - component: {fileID: 2848409113107969084}
   m_Layer: 0
   m_Name: Magic fire pro yellow
   m_TagString: Item
@@ -14545,6 +14546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c05b3ef40d861438ca918b329fdd0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 8
+  speedIncreasePerLevel: 1.5
 --- !u!65 &-4857543357281465308
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14593,6 +14596,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2848409113107969084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434627103891488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e01b3932e32058468e42b451d752781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpParticle: {fileID: 8975922223065966522, guid: 734511b3941e6a841b5dc83f6b4702b5,
+    type: 3}
+  bonusHudTextPrefab: {fileID: 18839968892194024, guid: 30bd333cf7274a347a0042cc6ac43301,
+    type: 3}
+  pickupClip: {fileID: 8300000, guid: 4a2b8a700f880de479ec87a391b8072a, type: 3}
+  bonusScoreValue: 300
 --- !u!1 &1675093556902264
 GameObject:
   m_ObjectHideFlags: 0

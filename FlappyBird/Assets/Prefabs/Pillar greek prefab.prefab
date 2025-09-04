@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 6400000}
+  - component: {fileID: 8658305031894113811}
   m_Layer: 0
   m_Name: Pillar greek prefab
   m_TagString: Untagged
@@ -106,3 +107,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: a025cf4bd920b96419febb3a6ca19ae6, type: 3}
+--- !u!114 &8658305031894113811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c73078058cc3849ab43838462f472b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathClip: {fileID: 8300000, guid: 75709ca1232d7f1429e8b9374744acd8, type: 3}
+  deathParticle: {fileID: 6645776059663910902, guid: cc3171399de66cc4a986a1747a9d24d2,
+    type: 3}
